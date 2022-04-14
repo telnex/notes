@@ -1,18 +1,19 @@
 from function import *
 from aiogram import types
-from notes_bot import dp, bot
+from notes_bot import dp
+from aiogram.dispatcher.filters.builtin import Text
 import keyboards as kb
 import datetime as dt
 
 
-
-@dp.callback_query_handler(lambda c: c.data == 'today' or c.data == 'imp_today')
+@dp.callback_query_handler(Text('today'))
+@dp.callback_query_handler(Text('imp_today'))
 async def today(call: types.CallbackQuery):
     """ Отображение событий текущего дня """
     if call.data == 'imp_today':
-        await bot.answer_callback_query(call.id, text.td1)
+        await call.answer(text.td1)
     else:
-        await bot.answer_callback_query(call.id)
+        await call.answer()
     userid = call.from_user.id
     date = dt.datetime.strptime(dateNowStr(), '%d.%m.%Y')
     connect = sqlite3.connect(BD)

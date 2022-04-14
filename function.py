@@ -24,6 +24,7 @@ def check(id: int):
         connect.commit()
     return True
 
+
 def getLog():
     """ Получение основного лога бота """
     txt = open("./log/bot.log", "r", encoding='utf-8')
@@ -41,6 +42,7 @@ def getLog():
         log = txt.read()
         txt.close()
     return log
+
 
 def qCountUser():
     """ Кол-во пользователей бота"""

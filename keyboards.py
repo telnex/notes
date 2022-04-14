@@ -66,7 +66,7 @@ def tomorrow(imp: int = 0):
     menu.add(
         InlineKeyboardButton('На сегодня', callback_data='today'),
         InlineKeyboardButton('◉ На завтра', callback_data='tomorrow'),
-        InlineKeyboardButton(u'\U0001F4DD', callback_data='edit__tomorrow')
+        InlineKeyboardButton(u'\U0001F4DD', callback_data='edit_tomorrow')
     )
     return menu
 

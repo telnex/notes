@@ -1,19 +1,21 @@
 from function import *
 from aiogram import types
-from notes_bot import dp, bot
+from notes_bot import dp
+from aiogram.dispatcher.filters.builtin import Text
 import datetime as dt
 import keyboards as kb
 import text
 
 
-@dp.callback_query_handler(lambda c: c.data == 'edit_today' or c.data == 'edit__tomorrow')
+@dp.callback_query_handler(Text('edit_today'))
+@dp.callback_query_handler(Text('edit_tomorrow'))
 async def editNotes(call: types.CallbackQuery):
     """ Редактирование списка событий """
     connect = sqlite3.connect(BD)
     cur = connect.cursor()
     userid = call.from_user.id
     date = dt.datetime.strptime(dateNowStr(), '%d.%m.%Y')
-    await bot.answer_callback_query(call.id, text.ed1)
+    await call.answer(text.ed1)
     if call.data == 'edit_today':
         mess = text.ed2 + date.strftime("%d.%m.%y") + '*'
         mess += text.ed3
@@ -31,7 +33,7 @@ async def editNotes(call: types.CallbackQuery):
                 mess += dt.datetime.fromtimestamp(note[3]).strftime('%H:%M') + '* '
                 mess += note[4]
                 await call.message.answer(mess, parse_mode="Markdown", reply_markup=kb.edit(note[0]))
-    elif call.data == 'edit__tomorrow':
+    elif call.data == 'edit_tomorrow':
         mess = text.ed4
         mess += text.ed5
         await call.message.edit_text(mess, parse_mode="Markdown")
